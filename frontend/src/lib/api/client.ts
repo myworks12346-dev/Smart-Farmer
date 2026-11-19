@@ -96,6 +96,28 @@ class ApiClient {
     return result;
   }
 
+  async createCropCycle(
+    cycle: {
+      farm_id: string;
+      crop_name: string;
+      variety?: string;
+      sowing_date: string;
+      current_stage: CropGrowthStage;
+    },
+    token?: string
+  ): Promise<{ data: any; isMock: boolean }> {
+    const result = await this.fetchWithAuth<any>("/api/v1/crop-cycles", {
+      method: "POST",
+      body: JSON.stringify(cycle),
+      token,
+    });
+    if (result.isMock || !result.data) {
+      const newCycle = { ...cycle, id: `cycle_${Date.now()}` };
+      return { data: newCycle, isMock: true };
+    }
+    return result;
+  }
+
   async updateCropStage(
     cycleId: string,
     stage: CropGrowthStage,
