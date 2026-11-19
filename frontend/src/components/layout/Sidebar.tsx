@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   MapPin,
@@ -16,6 +16,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useAuth } from "@/context/AuthContext";
 
 interface NavItem {
   name: string;
@@ -37,6 +38,21 @@ const NAV_ITEMS: NavItem[] = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { farmerMetadata, signOut, isDemoMode } = useAuth();
+
+  const farmerName = farmerMetadata?.full_name || "Farmer";
+  const initials = farmerName
+    .split(" ")
+    .map((n) => n[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/login");
+  };
 
   return (
     <aside className="hidden lg:flex flex-col w-64 bg-white border-r border-[#e5e9e4] h-screen sticky top-0 shrink-0 z-30">
@@ -108,36 +124,42 @@ export function Sidebar() {
         })}
       </nav>
 
-      {/* Development Mode Pill / Backend Notice */}
+      {/* Development Mode Notice */}
       <div className="px-4 py-3 mx-3 mb-3 bg-[#f7f9f6] rounded-xl border border-[#e5e9e4]">
         <div className="flex items-center gap-2 text-xs font-semibold text-[#15803d]">
           <Sparkles className="w-3.5 h-3.5 shrink-0" />
-          <span>FastAPI Integration Ready</span>
+          <span>{isDemoMode ? "Demo Mode Active" : "Supabase Auth Active"}</span>
         </div>
         <p className="text-[11px] text-[#7b8d83] mt-1">
-          Connected to local mock schema. Toggle live endpoints via <code className="text-[10px] bg-white px-1 py-0.5 rounded border">NEXT_PUBLIC_API_BASE_URL</code>.
+          {isDemoMode
+            ? "Configure NEXT_PUBLIC_SUPABASE_URL in .env.local for live auth."
+            : "Authenticated via Supabase SSR."}
         </p>
       </div>
 
       {/* User Profile Bar at bottom */}
       <div className="p-3 border-t border-[#f1f4f1]">
         <div className="flex items-center justify-between p-2 rounded-xl bg-gray-50 hover:bg-gray-100 transition-colors">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-full bg-[#15803d] text-white flex items-center justify-center font-bold text-sm shadow-xs">
-              RK
+          <div className="flex items-center gap-2.5 truncate">
+            <div className="w-9 h-9 rounded-full bg-[#15803d] text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
+              {initials}
             </div>
-            <div className="text-left">
-              <p className="text-xs font-bold text-gray-900 leading-tight">Rakib Kowshar</p>
-              <p className="text-[11px] text-gray-500">Karnataka, BLR Rural</p>
+            <div className="text-left truncate">
+              <p className="text-xs font-bold text-gray-900 leading-tight truncate">
+                {farmerName}
+              </p>
+              <p className="text-[11px] text-gray-500 truncate">
+                Lang: {farmerMetadata?.preferred_language?.toUpperCase() || "EN"}
+              </p>
             </div>
           </div>
-          <Link
-            href="/login"
+          <button
+            onClick={handleSignOut}
             title="Sign out"
-            className="p-1.5 text-gray-400 hover:text-red-600 rounded-lg transition-colors"
+            className="p-1.5 text-gray-400 hover:text-red-600 rounded-lg transition-colors shrink-0"
           >
             <LogOut className="w-4 h-4" />
-          </Link>
+          </button>
         </div>
       </div>
     </aside>

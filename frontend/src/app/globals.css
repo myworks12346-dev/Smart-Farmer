@@ -6,7 +6,7 @@
   --forest-700: #145e38;
   --forest-600: #1b7a4b;
   --forest-500: #22995e;
-  
+
   --agri-green: #15803d;
   --agri-light: #f0fdf4;
   --agri-border: #bbf7d0;
@@ -41,13 +41,16 @@ body {
   width: 6px;
   height: 6px;
 }
+
 ::-webkit-scrollbar-track {
   background: #f1f4f1;
 }
+
 ::-webkit-scrollbar-thumb {
   background: #c3cdc5;
   border-radius: 3px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
   background: #9fae9f;
 }

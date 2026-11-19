@@ -6,11 +6,7 @@ import {
   MapPin,
   Calendar,
   RefreshCw,
-  Sparkles,
-  Printer,
   PlusCircle,
-  AlertTriangle,
-  CheckCircle2,
 } from "lucide-react";
 import { QuickStats } from "@/components/dashboard/QuickStats";
 import { WeatherSummaryCard } from "@/components/dashboard/WeatherSummaryCard";
@@ -22,18 +18,22 @@ import { Badge } from "@/components/ui/Badge";
 import { apiClient } from "@/lib/api/client";
 import { DashboardResponse, CropGrowthStage } from "@/types";
 import { MOCK_DASHBOARD_RESPONSE } from "@/mock/data";
+import { useAuth } from "@/context/AuthContext";
 
 export default function DashboardPage() {
+  const { farmerMetadata, accessToken, isDemoMode } = useAuth();
   const [data, setData] = useState<DashboardResponse>(MOCK_DASHBOARD_RESPONSE);
   const [isMock, setIsMock] = useState(true);
   const [loading, setLoading] = useState(false);
   const [lastRefreshed, setLastRefreshed] = useState<string>("Just now");
   const [currentDateStr, setCurrentDateStr] = useState<string>("");
 
+  const farmerFirstName = farmerMetadata?.full_name?.split(" ")[0] || "Farmer";
+
   const loadDashboardData = async () => {
     setLoading(true);
     try {
-      const res = await apiClient.getDashboard(data.farm.id);
+      const res = await apiClient.getDashboard(data.farm.id, accessToken || undefined);
       setData(res.data);
       setIsMock(res.isMock);
       setLastRefreshed(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
@@ -49,7 +49,7 @@ export default function DashboardPage() {
       crop: { ...prev.crop, stage: newStage },
     }));
 
-    await apiClient.updateCropStage("crop_001", newStage);
+    await apiClient.updateCropStage("crop_001", newStage, accessToken || undefined);
   };
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export default function DashboardPage() {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl md:text-2xl font-extrabold text-[#0f4a2c] tracking-tight">
-              Namaste, Rakib 👋
+              Namaste, {farmerFirstName} 👋
             </h1>
             {isMock ? (
               <Badge variant="neutral" className="text-[10px] bg-amber-50 text-amber-800 border-amber-200">
