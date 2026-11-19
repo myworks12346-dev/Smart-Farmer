@@ -142,6 +142,46 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Mobile Quick Action Categories (Reference Design Image 2) */}
+      <div className="grid grid-cols-4 gap-2 lg:hidden">
+        <Link
+          href="/dashboard/crops"
+          className="p-2.5 rounded-xl bg-white border border-gray-200 text-center flex flex-col items-center justify-center hover:bg-emerald-50/50 shadow-2xs transition-colors"
+        >
+          <div className="w-8 h-8 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center mb-1 text-sm font-bold">
+            🌾
+          </div>
+          <span className="text-[11px] font-bold text-gray-800">Crops</span>
+        </Link>
+        <Link
+          href="/dashboard/weather"
+          className="p-2.5 rounded-xl bg-white border border-gray-200 text-center flex flex-col items-center justify-center hover:bg-sky-50/50 shadow-2xs transition-colors"
+        >
+          <div className="w-8 h-8 rounded-lg bg-sky-100 text-sky-800 flex items-center justify-center mb-1 text-sm font-bold">
+            ⛅
+          </div>
+          <span className="text-[11px] font-bold text-gray-800">Weather</span>
+        </Link>
+        <Link
+          href="/dashboard/advisories"
+          className="p-2.5 rounded-xl bg-white border border-gray-200 text-center flex flex-col items-center justify-center hover:bg-amber-50/50 shadow-2xs transition-colors"
+        >
+          <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center mb-1 text-sm font-bold">
+            ⚠️
+          </div>
+          <span className="text-[11px] font-bold text-gray-800">Advisories</span>
+        </Link>
+        <Link
+          href="/dashboard/market"
+          className="p-2.5 rounded-xl bg-white border border-gray-200 text-center flex flex-col items-center justify-center hover:bg-green-50/50 shadow-2xs transition-colors"
+        >
+          <div className="w-8 h-8 rounded-lg bg-green-100 text-green-800 flex items-center justify-center mb-1 text-sm font-bold">
+            📊
+          </div>
+          <span className="text-[11px] font-bold text-gray-800">Mandi</span>
+        </Link>
+      </div>
+
       {/* Top 4 Key Metric Stat Cards */}
       <QuickStats
         activeFieldsCount={farms.length}
