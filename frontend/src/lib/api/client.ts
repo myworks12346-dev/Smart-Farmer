@@ -169,6 +169,23 @@ class ApiClient {
     }
     return result;
   }
+
+  async markAlertRead(
+    alertId: string,
+    token?: string
+  ): Promise<{ success: boolean; isMock: boolean }> {
+    const result = await this.fetchWithAuth<{ success: boolean }>(
+      `/api/v1/alerts/${alertId}/read`,
+      {
+        method: "PATCH",
+        token,
+      }
+    );
+    if (result.isMock) {
+      return { success: true, isMock: true };
+    }
+    return { success: true, isMock: false };
+  }
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);

@@ -139,31 +139,28 @@ export default function WeatherPage() {
       <div className="flex gap-2 border-b border-gray-200 pb-2">
         <button
           onClick={() => setActiveTab("forecast")}
-          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
-            activeTab === "forecast"
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${activeTab === "forecast"
               ? "bg-[#15803d] text-white shadow-2xs"
               : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
-          }`}
+            }`}
         >
           📈 5-Day Temperature Forecast
         </button>
         <button
           onClick={() => setActiveTab("rainfall")}
-          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
-            activeTab === "rainfall"
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${activeTab === "rainfall"
               ? "bg-[#15803d] text-white shadow-2xs"
               : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
-          }`}
+            }`}
         >
           🌧️ Rainfall & Precipitation Chances
         </button>
         <button
           onClick={() => setActiveTab("historical")}
-          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${
-            activeTab === "historical"
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-colors ${activeTab === "historical"
               ? "bg-[#15803d] text-white shadow-2xs"
               : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
-          }`}
+            }`}
         >
           📊 Past 7 Days Historical Trend
         </button>

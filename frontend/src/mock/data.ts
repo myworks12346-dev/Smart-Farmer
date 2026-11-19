@@ -103,12 +103,12 @@ export const MOCK_RISK_ALERTS: CropRiskAlert[] = [
     farm_id: "farm_001",
     crop_name: "Paddy (Rice)",
     crop_stage: "Flowering",
-    hazard: "Heavy Rainfall & Waterlogging",
+    hazard: "Heavy Rainfall & Pollen Washout Warning",
     severity: "high",
     reason:
-      "Forecast rainfall of 14-22mm overlaps with critical flowering stage. Pollen wash-out and fungal blast development risk is elevated.",
+      "Forecast rainfall of 14-22mm coincides with active anthesis (flowering). Rain wash-out prevents fertilization and promotes fungal glume blast.",
     advisory:
-      "Ensure proper drainage in paddy basins. Temporarily postpone chemical spraying or urea top-dressing until showers recede. Monitor for sheath blight.",
+      "Ensure drainage channels in paddy basins are clear. Postpone urea top-dressing and chemical sprays until precipitation subsides. Monitor for sheath rot.",
     forecast_period: "Next 24 to 48 Hours",
     source: "IMD Agromet Advisory Service",
     timestamp: "2026-11-19T08:30:00Z",
@@ -119,16 +119,64 @@ export const MOCK_RISK_ALERTS: CropRiskAlert[] = [
     farm_id: "farm_001",
     crop_name: "Paddy (Rice)",
     crop_stage: "Flowering",
-    hazard: "High Humidity & Moderate Temp",
+    hazard: "High Humidity & Moderate Temp (Bacterial Blight)",
     severity: "moderate",
     reason:
-      "Continuous relative humidity above 75% creates favorable micro-climate for bacterial leaf blight.",
+      "Relative humidity sustained above 75% for 48 consecutive hours creates an ideal micro-climate for bacterial leaf blight proliferation.",
     advisory:
-      "Inspect leaf margins for water-soaked stripes. Maintain standard water level without stagnant flooding.",
+      "Inspect leaf margins for translucent water-soaked stripes. Maintain standard 2-3 cm standing water without stagnant flooding. Avoid nitrogen overdose.",
     forecast_period: "Next 3 Days",
     source: "State Agricultural University Advisory",
     timestamp: "2026-11-19T06:00:00Z",
     is_read: false,
+  },
+  {
+    id: "alert_03",
+    farm_id: "farm_001",
+    crop_name: "Tomato",
+    crop_stage: "Fruiting / Grain formation",
+    hazard: "Heatwave & Thermal Stress Alert",
+    severity: "high",
+    reason:
+      "Daytime maximum temperatures expected to touch 36°C with low atmospheric moisture. Risk of blossom-end rot and fruit drop.",
+    advisory:
+      "Apply light and frequent furrow irrigation during evening hours. Consider straw mulching around root zones to conserve soil moisture.",
+    forecast_period: "Nov 22 - Nov 24",
+    source: "National Agromet Advisory Bulletin",
+    timestamp: "2026-11-18T16:00:00Z",
+    is_read: true,
+  },
+  {
+    id: "alert_04",
+    farm_id: "farm_001",
+    crop_name: "Paddy (Rice)",
+    crop_stage: "Maturity",
+    hazard: "Squall & Strong Wind Warning (>45 km/h)",
+    severity: "critical",
+    reason:
+      "Severe convective squalls forecast across the district. Heavy top-weight grain panicles risk severe crop lodging and stem breakage.",
+    advisory:
+      "Completely drain water from fields 10-15 days ahead of harvest. Harvest immediately if grain moisture is below 20% to avoid lodging losses.",
+    forecast_period: "Next 12 Hours",
+    source: "IMD Cyclone & Severe Weather Warning Wing",
+    timestamp: "2026-11-19T07:15:00Z",
+    is_read: false,
+  },
+  {
+    id: "alert_05",
+    farm_id: "farm_001",
+    crop_name: "Maize (Corn)",
+    crop_stage: "Vegetative",
+    hazard: "Dry Spell & Soil Moisture Depletion",
+    severity: "low",
+    reason:
+      "Soil moisture approaching wilting point after 5 consecutive rainless days with high evaporation.",
+    advisory:
+      "Provide critical vegetative irrigation. Hoeing in rows will create a soil mulch and prevent capillary water loss.",
+    forecast_period: "Next 5 Days",
+    source: "District Agro-Meteorology Unit (DAMU)",
+    timestamp: "2026-11-17T11:00:00Z",
+    is_read: true,
   },
 ];
 
