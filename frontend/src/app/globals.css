@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+:root {
+  --forest-900: #0a2f1c;
+  --forest-800: #0f4a2c;
+  --forest-700: #145e38;
+  --forest-600: #1b7a4b;
+  --forest-500: #22995e;
+  
+  --agri-green: #15803d;
+  --agri-light: #f0fdf4;
+  --agri-border: #bbf7d0;
+
+  --bg-page: #f7f9f6;
+  --bg-card: #ffffff;
+  --border-subtle: #e5e9e4;
+  --text-primary: #19261f;
+  --text-secondary: #526359;
+  --text-muted: #7b8d83;
+
+  --risk-low: #15803d;
+  --risk-low-bg: #ecfdf5;
+  --risk-mod: #d97706;
+  --risk-mod-bg: #fffbeb;
+  --risk-high: #dc2626;
+  --risk-high-bg: #fef2f2;
+  --risk-crit: #991b1b;
+  --risk-crit-bg: #fee2e2;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Custom scrollbar for data tables and panels */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f4f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #c3cdc5;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #9fae9f;
+}

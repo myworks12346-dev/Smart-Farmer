@@ -1,0 +1,142 @@
+"use client";
+
+import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { Sprout, Lock, Phone, User, Globe, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+
+export default function RegisterPage() {
+  const router = useRouter();
+  const [fullName, setFullName] = useState("");
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [language, setLanguage] = useState("en");
+  const [loading, setLoading] = useState(false);
+
+  const handleRegister = (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+    setTimeout(() => {
+      // Guide directly into Farm Onboarding (Step 2)
+      router.push("/onboarding");
+    }, 500);
+  };
+
+  return (
+    <div className="min-h-screen bg-[#f7f9f6] flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md text-center">
+        <Link href="/" className="inline-flex items-center gap-2 mb-4">
+          <div className="w-10 h-10 rounded-xl bg-[#0f4a2c] flex items-center justify-center text-white shadow-sm">
+            <Sprout className="w-6 h-6 text-[#4ade80]" />
+          </div>
+          <span className="text-2xl font-bold tracking-tight text-[#0f4a2c]">
+            Smart<span className="text-[#16a34a]">Farmer</span>
+          </span>
+        </Link>
+        <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">
+          Create Farmer Account
+        </h2>
+        <p className="text-xs text-gray-500 mt-1">
+          Join thousands of farmers receiving crop-stage weather risk advisories
+        </p>
+      </div>
+
+      <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md px-4">
+        <Card className="p-6 md:p-8 shadow-md">
+          <form className="space-y-4" onSubmit={handleRegister}>
+            <div>
+              <label className="block text-xs font-bold text-gray-700 mb-1">
+                Full Name
+              </label>
+              <div className="relative">
+                <User className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Ramesh Patel"
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-3 py-2.5 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#15803d]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-gray-700 mb-1">
+                Phone Number or Email
+              </label>
+              <div className="relative">
+                <Phone className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="text"
+                  required
+                  placeholder="+91 98765 43210"
+                  value={identifier}
+                  onChange={(e) => setIdentifier(e.target.value)}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-3 py-2.5 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#15803d]"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-gray-700 mb-1">
+                Preferred Advisory Language
+              </label>
+              <div className="relative">
+                <Globe className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <select
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-3 py-2.5 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#15803d]"
+                >
+                  <option value="en">English</option>
+                  <option value="hi">हिंदी (Hindi)</option>
+                  <option value="kn">ಕನ್ನಡ (Kannada)</option>
+                  <option value="te">తెలుగు (Telugu)</option>
+                  <option value="ta">தமிழ் (Tamil)</option>
+                  <option value="mr">मराठी (Marathi)</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold text-gray-700 mb-1">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+                <input
+                  type="password"
+                  required
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-gray-50 border border-gray-200 rounded-xl pl-9 pr-3 py-2.5 text-xs text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#15803d]"
+                />
+              </div>
+            </div>
+
+            <Button
+              type="submit"
+              size="md"
+              disabled={loading}
+              className="w-full mt-2 font-bold"
+              icon={<ArrowRight className="w-4 h-4" />}
+            >
+              {loading ? "Registering..." : "Create Account & Register Farm"}
+            </Button>
+          </form>
+
+          <div className="mt-6 text-center text-xs text-gray-500">
+            Already have an account?{" "}
+            <Link href="/login" className="font-bold text-[#15803d] hover:underline">
+              Sign In
+            </Link>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
