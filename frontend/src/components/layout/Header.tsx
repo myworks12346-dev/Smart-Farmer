@@ -9,24 +9,21 @@ import {
   MapPin,
   ChevronDown,
   Menu,
-  X,
-  Sprout,
-  ShieldAlert,
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
-import { MOCK_FARMS } from "@/mock/data";
+import { useFarm } from "@/context/FarmContext";
 
 interface HeaderProps {
   onToggleMobileMenu?: () => void;
 }
 
 export function Header({ onToggleMobileMenu }: HeaderProps) {
-  const [selectedFarm, setSelectedFarm] = useState(MOCK_FARMS[0]);
+  const { farms, selectedFarm, setSelectedFarm } = useFarm();
   const [isFarmDropdownOpen, setIsFarmDropdownOpen] = useState(false);
 
   return (
     <header className="h-18 bg-white border-b border-[#e5e9e4] px-4 md:px-8 flex items-center justify-between sticky top-0 z-20">
-      {/* Left: Mobile hamburger & Farm Selector / Greeting */}
+      {/* Left: Mobile hamburger & Farm Selector */}
       <div className="flex items-center gap-4">
         {onToggleMobileMenu && (
           <button
@@ -55,7 +52,7 @@ export function Header({ onToggleMobileMenu }: HeaderProps) {
               <p className="px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-400">
                 Switch Farm
               </p>
-              {MOCK_FARMS.map((farm) => (
+              {farms.map((farm) => (
                 <button
                   key={farm.id}
                   onClick={() => {

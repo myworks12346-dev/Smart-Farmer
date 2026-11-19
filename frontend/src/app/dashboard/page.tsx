@@ -7,6 +7,8 @@ import {
   Calendar,
   RefreshCw,
   PlusCircle,
+  Layers,
+  Sparkles,
 } from "lucide-react";
 import { QuickStats } from "@/components/dashboard/QuickStats";
 import { WeatherSummaryCard } from "@/components/dashboard/WeatherSummaryCard";
@@ -19,9 +21,12 @@ import { apiClient } from "@/lib/api/client";
 import { DashboardResponse, CropGrowthStage } from "@/types";
 import { MOCK_DASHBOARD_RESPONSE } from "@/mock/data";
 import { useAuth } from "@/context/AuthContext";
+import { useFarm } from "@/context/FarmContext";
 
 export default function DashboardPage() {
-  const { farmerMetadata, accessToken, isDemoMode } = useAuth();
+  const { farmerMetadata, accessToken } = useAuth();
+  const { selectedFarm, farms } = useFarm();
+
   const [data, setData] = useState<DashboardResponse>(MOCK_DASHBOARD_RESPONSE);
   const [isMock, setIsMock] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -30,11 +35,22 @@ export default function DashboardPage() {
 
   const farmerFirstName = farmerMetadata?.full_name?.split(" ")[0] || "Farmer";
 
-  const loadDashboardData = async () => {
+  const loadDashboardData = async (farmId: string) => {
     setLoading(true);
     try {
-      const res = await apiClient.getDashboard(data.farm.id, accessToken || undefined);
-      setData(res.data);
+      const res = await apiClient.getDashboard(farmId, accessToken || undefined);
+      // Ensure the returned farm metadata matches the selected farm
+      setData({
+        ...res.data,
+        farm: {
+          id: selectedFarm.id,
+          name: selectedFarm.name,
+          district: selectedFarm.district,
+          state: selectedFarm.state,
+          land_area: selectedFarm.land_area,
+          area_unit: selectedFarm.area_unit,
+        },
+      });
       setIsMock(res.isMock);
       setLastRefreshed(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
     } finally {
@@ -43,7 +59,6 @@ export default function DashboardPage() {
   };
 
   const handleStageChange = async (newStage: CropGrowthStage) => {
-    // Optimistic UI update
     setData((prev) => ({
       ...prev,
       crop: { ...prev.crop, stage: newStage },
@@ -61,8 +76,13 @@ export default function DashboardPage() {
         year: "numeric",
       })
     );
-    loadDashboardData();
   }, []);
+
+  useEffect(() => {
+    if (selectedFarm?.id) {
+      loadDashboardData(selectedFarm.id);
+    }
+  }, [selectedFarm?.id, accessToken]);
 
   return (
     <div className="space-y-6">
@@ -75,7 +95,7 @@ export default function DashboardPage() {
             </h1>
             {isMock ? (
               <Badge variant="neutral" className="text-[10px] bg-amber-50 text-amber-800 border-amber-200">
-                Dev Preview (FastAPI Mock)
+                FastAPI Mock Fallback
               </Badge>
             ) : (
               <Badge variant="success" className="text-[10px]">
@@ -84,9 +104,9 @@ export default function DashboardPage() {
             )}
           </div>
           <div className="flex items-center gap-3 text-xs text-gray-500 mt-1 flex-wrap">
-            <span className="flex items-center gap-1 font-medium text-gray-700">
+            <span className="flex items-center gap-1 font-bold text-gray-800">
               <MapPin className="w-3.5 h-3.5 text-[#15803d]" />
-              {data.farm.name} · {data.farm.district}, {data.farm.state}
+              {selectedFarm.name} · {selectedFarm.district}, {selectedFarm.state} ({selectedFarm.land_area} {selectedFarm.area_unit})
             </span>
             <span>•</span>
             <span className="flex items-center gap-1">
@@ -103,7 +123,7 @@ export default function DashboardPage() {
           <Button
             variant="outline"
             size="sm"
-            onClick={loadDashboardData}
+            onClick={() => loadDashboardData(selectedFarm.id)}
             disabled={loading}
             icon={<RefreshCw className={`w-3.5 h-3.5 ${loading ? "animate-spin" : ""}`} />}
           >
@@ -124,14 +144,14 @@ export default function DashboardPage() {
 
       {/* Top 4 Key Metric Stat Cards */}
       <QuickStats
-        activeFieldsCount={2}
+        activeFieldsCount={farms.length}
         cropsCount={1}
         soilMoistureAvg={data.weather.humidity}
         riskLevel={data.risks[0]?.severity ?? "low"}
         estimatedYieldTons={46.8}
       />
 
-      {/* Primary Crop Risk & Advisory Banner */}
+      {/* Primary Crop Risk & Advisory Alert Summary */}
       <RiskAlertCard risks={data.risks} />
 
       {/* 2-Column Responsive Operational Grid */}
